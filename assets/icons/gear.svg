@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="100%" height="100%">
+  <defs>
+    <linearGradient id="gearGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+  </defs>
+  <path d="M24 16 A8 8 0 1 0 24 32 A8 8 0 1 0 24 16 Z" fill="none" stroke="url(#gearGrad)" stroke-width="4"/>
+  <path d="M21 4 L27 4 L28 9 C29.5 9.6 30.9 10.4 32.1 11.4 L37 9.5 L40 14.7 L36.2 18 C36.6 19.3 36.8 20.6 36.8 22 C36.8 23.4 36.6 24.7 36.2 26 L40 29.3 L37 34.5 L32.1 32.6 C30.9 33.6 29.5 34.4 28 35 L27 40 L21 40 L20 35 C18.5 34.4 17.1 33.6 15.9 32.6 L11 34.5 L8 29.3 L11.8 26 C11.4 24.7 11.2 23.4 11.2 22 C11.2 20.6 11.4 19.3 11.8 18 L8 14.7 L11 9.5 L15.9 11.4 C17.1 10.4 18.5 9.6 20 9 Z" fill="none" stroke="url(#gearGrad)" stroke-width="3" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herramientas de Tiempo & Fechas | Contador de Días</title>
+<link rel="icon" href="../assets/icons/hourglass.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/styles.css">
+
+<style>
+.tools-container {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.tool-header-block {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.tool-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: clamp(20px, 4vw, 32px);
+  box-shadow: var(--shadow);
+  transition: all 0.3s;
+}
+.tool-card-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--app-primary);
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tool-card-desc {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0 0 20px;
+}
+.tool-inputs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.tool-result-panel {
+  background: var(--card-subtle);
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.tool-result-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--app-primary);
+}
+.tool-result-big {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(28px, 6vw, 42px);
+  font-weight: 900;
+  color: var(--app-primary);
+  line-height: 1.1;
+  margin: 4px 0 8px;
+}
+.tool-result-sub {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.quick-chips-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.chip-btn {
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  color: var(--app-text);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.chip-btn:hover {
+  background: var(--app-primary-soft);
+  border-color: var(--app-primary);
+  color: var(--app-primary);
+}
+</style>
+</head>
+<body>
+
+<header class="top-navbar" style="max-width: 900px;">
+  <a href="../contador.html" class="brand-badge">
+    <div class="brand-icon">
+      <img src="../assets/icons/hourglass.svg" alt="Hourglass" width="22" height="22">
+    </div>
+    <span>Tools / Herramientas</span>
+  </a>
+
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <a href="../contador.html" class="nav-btn primary">← Ir a la Calculadora</a>
+  </div>
+</header>
+
+<main class="tools-container">
+  <div class="tool-header-block">
+    <span class="header-badge">🛠️ Suite de Utilidades Temporales</span>
+    <h1 class="header-title" style="font-size: clamp(28px, 6vw, 36px); margin-top: 8px;">Herramientas de Tiempo</h1>
+    <p class="header-subtitle" style="margin-bottom: 0;">Calculadoras especializadas de proyección, suma de lapsos y días laborables.</p>
+  </div>
+
+  <!-- HERRAMIENTA 1: SUMAR O RESTAR DÍAS A UNA FECHA -->
+  <div class="tool-card">
+    <div class="tool-card-title">
+      <span>➕➖</span> Calculadora de Sumar / Restar Días
+    </div>
+    <p class="tool-card-desc">
+      Averigua con exactitud qué fecha del calendario será sumando o restando una cantidad de días a cualquier fecha base.
+    </p>
+
+    <div class="tool-inputs-grid">
+      <div>
+        <label class="field-label" style="margin-bottom: 6px;">📅 Fecha Base</label>
+        <div class="input-wrapper">
+          <input type="date" id="t1BaseDate">
+        </div>
+      </div>
+      <div>
+        <label class="field-label" style="margin-bottom: 6px;">🔢 Días a Sumar (+) o Restar (-)</label>
+        <div class="input-wrapper">
+          <input type="number" id="t1DaysInput" value="30" placeholder="Ej: 45 o -15">
+        </div>
+      </div>
+    </div>
+
+    <!-- CHIPS RÁPIDOS -->
+    <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Accesos rápidos:</div>
+    <div class="quick-chips-row">
+      <button type="button" class="chip-btn" onclick="setT1Days(7)">+7 días (1 sem)</button>
+      <button type="button" class="chip-btn" onclick="setT1Days(15)">+15 días</button>
+      <button type="button" class="chip-btn" onclick="setT1Days(30)">+30 días (1 mes)</button>
+      <button type="button" class="chip-btn" onclick="setT1Days(60)">+60 días</button>
+      <button type="button" class="chip-btn" onclick="setT1Days(90)">+90 días (1 trim)</button>
+      <button type="button" class="chip-btn" onclick="setT1Days(180)">+180 días (1 sem)</button>
+      <button type="button" class="chip-btn" onclick="setT1Days(365)">+365 días (1 año)</button>
+      <button type="button" class="chip-btn" onclick="setT1Days(-30)">-30 días</button>
+    </div>
+
+    <div class="tool-result-panel" style="margin-top: 18px;">
+      <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">
+        Fecha Resultante
+      </div>
+      <div class="tool-result-big" id="t1ResultFormatted">--</div>
+      <div class="tool-result-sub" id="t1ResultDetails">Calculando proyección...</div>
+    </div>
+  </div>
+
+  <!-- HERRAMIENTA 2: CALCULADORA DE DÍAS HÁBILES Y FINES DE SEMANA -->
+  <div class="tool-card">
+    <div class="tool-card-title">
+      <span>💼</span> Calculadora de Días Hábiles (Laborables)
+    </div>
+    <p class="tool-card-desc">
+      Calcula cuántos días hábiles de trabajo (Lunes a Viernes) y fines de semana existen entre dos fechas.
+    </p>
+
+    <div class="tool-inputs-grid">
+      <div>
+        <label class="field-label" style="margin-bottom: 6px;">📅 Fecha Inicial</label>
+        <div class="input-wrapper">
+          <input type="date" id="t2StartDate">
+        </div>
+      </div>
+      <div>
+        <label class="field-label" style="margin-bottom: 6px;">🏁 Fecha Final</label>
+        <div class="input-wrapper">
+          <input type="date" id="t2EndDate">
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-result-panel">
+      <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">
+        Días Hábiles Computados
+      </div>
+      <div class="tool-result-big" id="t2BusinessDays">0</div>
+      <div class="tool-result-sub" id="t2Breakdown">Lunes a Viernes exclusivamente</div>
+    </div>
+  </div>
+
+  <!-- HERRAMIENTA 3: CONVERSOR DE INTERVALOS -->
+  <div class="tool-card">
+    <div class="tool-card-title">
+      <span>⌛</span> Conversor de Unidades de Tiempo
+    </div>
+    <p class="tool-card-desc">
+      Convierte una cantidad de días en semanas, horas, minutos y segundos al instante.
+    </p>
+
+    <div style="max-width: 320px; margin-bottom: 16px;">
+      <label class="field-label" style="margin-bottom: 6px;">Cantidad de Días</label>
+      <div class="input-wrapper">
+        <input type="number" id="t3DaysInput" value="100" min="1">
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px;">
+      <div class="breakdown-item" style="padding: 12px; flex-direction: column; align-items: flex-start;">
+        <span style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Semanas</span>
+        <strong style="font-size: 18px; color: var(--app-primary);" id="t3Weeks">14.3</strong>
+      </div>
+      <div class="breakdown-item" style="padding: 12px; flex-direction: column; align-items: flex-start;">
+        <span style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Meses Aprox.</span>
+        <strong style="font-size: 18px; color: var(--app-primary);" id="t3Months">3.3</strong>
+      </div>
+      <div class="breakdown-item" style="padding: 12px; flex-direction: column; align-items: flex-start;">
+        <span style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Horas Totales</span>
+        <strong style="font-size: 18px; color: var(--app-primary);" id="t3Hours">2,400</strong>
+      </div>
+      <div class="breakdown-item" style="padding: 12px; flex-direction: column; align-items: flex-start;">
+        <span style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Minutos Totales</span>
+        <strong style="font-size: 18px; color: var(--app-primary);" id="t3Minutes">144,000</strong>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER LIMPIO SIN AJUSTES NI 404 -->
+<footer class="site-footer">
+  <div class="footer-inner" style="max-width: 900px;">
+    <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+      <div>© 2026 <strong>WilfryDev</strong> • Tools / Herramientas de Tiempo.</div>
+      <div class="footer-status"><span class="status-dot"></span><span>100% Funcional y Offline</span></div>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/calculator.js"></script>
+<script>
+// Inicializar tema y color
+const theme = localStorage.getItem('daycounter_theme') || 'auto';
+let activeTheme = theme;
+if (theme === 'auto') activeTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+document.documentElement.setAttribute('data-theme', activeTheme);
+const color = localStorage.getItem('daycounter_color');
+if (color && color !== 'default') {
+  document.documentElement.style.setProperty('--app-primary', color);
+  document.documentElement.style.setProperty('--app-primary-soft', color + '22');
+}
+
+// Fechas por defecto
+const today = new Date();
+const todayStr = TimeCalculator.formatDate(today);
+
+document.getElementById('t1BaseDate').value = todayStr;
+document.getElementById('t2StartDate').value = todayStr;
+
+const futureEnd = new Date(today.getTime() + (30 * 24 * 60 * 60 * 1000));
+document.getElementById('t2EndDate').value = TimeCalculator.formatDate(futureEnd);
+
+// Lógica Herramienta 1
+function calcT1() {
+  const base = document.getElementById('t1BaseDate').value;
+  const days = parseInt(document.getElementById('t1DaysInput').value, 10) || 0;
+  const res = TimeCalculator.addOrSubtractDays(base, days);
+  if (!res) return;
+
+  const [y, m, d] = res.split('-').map(Number);
+  const targetDate = new Date(y, m - 1, d);
+  const formatter = new Intl.DateTimeFormat('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  const formattedText = formatter.format(targetDate);
+
+  document.getElementById('t1ResultFormatted').textContent = `${d.toString().padStart(2, '0')}/${m.toString().padStart(2, '0')}/${y}`;
+  document.getElementById('t1ResultDetails').textContent = `${formattedText.charAt(0).toUpperCase() + formattedText.slice(1)} (${days >= 0 ? '+' + days : days} días)`;
+}
+
+function setT1Days(n) {
+  document.getElementById('t1DaysInput').value = n;
+  calcT1();
+}
+
+document.getElementById('t1BaseDate').addEventListener('change', calcT1);
+document.getElementById('t1DaysInput').addEventListener('input', calcT1);
+calcT1();
+
+// Lógica Herramienta 2
+function calcT2() {
+  const s = document.getElementById('t2StartDate').value;
+  const e = document.getElementById('t2EndDate').value;
+  const res = TimeCalculator.calculateDifference(s, e, { onlyBusinessDays: true });
+  if (!res.valid) return;
+
+  document.getElementById('t2BusinessDays').textContent = `${Math.abs(res.days)} días hábiles`;
+  document.getElementById('t2Breakdown').textContent = `Total calendario: ${res.absDays} días | Semanas: ${res.breakdown.weeks}`;
+}
+
+document.getElementById('t2StartDate').addEventListener('change', calcT2);
+document.getElementById('t2EndDate').addEventListener('change', calcT2);
+calcT2();
+
+// Lógica Herramienta 3
+function calcT3() {
+  const days = Math.abs(parseInt(document.getElementById('t3DaysInput').value, 10) || 0);
+  document.getElementById('t3Weeks').textContent = (days / 7).toFixed(1);
+  document.getElementById('t3Months').textContent = (days / 30.4375).toFixed(1);
+  document.getElementById('t3Hours').textContent = (days * 24).toLocaleString();
+  document.getElementById('t3Minutes').textContent = (days * 24 * 60).toLocaleString();
+}
+document.getElementById('t3DaysInput').addEventListener('input', calcT3);
+calcT3();
+</script>
+</body>
+</html>

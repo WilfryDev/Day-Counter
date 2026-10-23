@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day Counter Widget</title>
+<link rel="icon" href="assets/icons/hourglass.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff;
+  --card-bg: #ffffff;
+  --app-text: #1a1a2e;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --app-primary: #6d28d9;
+  --app-primary-soft: #f3e8ff;
+}
+[data-theme="dark"] {
+  --bg: #141b2d;
+  --card-bg: #141b2d;
+  --app-text: #f8fafc;
+  --text-muted: #94a3b8;
+  --border: #28344e;
+  --app-primary: #8b5cf6;
+  --app-primary-soft: rgba(139, 92, 246, 0.18);
+}
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: var(--bg);
+  color: var(--app-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 12px;
+  overflow: hidden;
+}
+.widget-card {
+  width: 100%;
+  max-width: 360px;
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 18px 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+.widget-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--app-primary);
+}
+.widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.widget-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--app-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 220px;
+}
+.widget-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 12px;
+  background: var(--app-primary-soft);
+  color: var(--app-primary);
+}
+.widget-number {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(38px, 12vw, 56px);
+  font-weight: 900;
+  color: var(--app-primary);
+  line-height: 1;
+  margin: 4px 0;
+}
+.widget-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--app-text);
+  margin-bottom: 8px;
+}
+.widget-breakdown {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.widget-breakdown span {
+  font-weight: 700;
+  color: var(--app-primary);
+}
+.widget-footer {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-muted);
+}
+.widget-footer a {
+  color: var(--app-primary);
+  text-decoration: none;
+  font-weight: 700;
+}
+</style>
+</head>
+<body>
+
+<div class="widget-card">
+  <div class="widget-header">
+    <div class="widget-title" id="wTitle">Calculadora de Tiempo</div>
+    <span class="widget-badge" id="wStatus">Transcurrido</span>
+  </div>
+
+  <div class="widget-number" id="wNumber">0</div>
+  <div class="widget-label" id="wLabel">días transcurridos</div>
+
+  <div class="widget-breakdown">
+    <div><span id="wWeeks">0</span> sem</div>
+    <div>•</div>
+    <div><span id="wHours">0</span> horas</div>
+  </div>
+
+  <div class="widget-footer">
+    <span id="wDates">01/01/2026 ➔ Hoy</span>
+    <a href="contador.html" target="_blank" rel="noopener">⏳ Contador de Días</a>
+  </div>
+</div>
+
+<script src="js/calculator.js"></script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const start = params.get('start') || '2026-01-01';
+const end = params.get('end') || TimeCalculator.formatDate(new Date());
+const title = params.get('title') || 'Contador de Días';
+const theme = params.get('theme') || 'auto';
+const color = params.get('color');
+const inc = params.get('include') !== 'false';
+const bus = params.get('business') === 'true';
+
+let activeTheme = theme;
+if (theme === 'auto') activeTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+document.documentElement.setAttribute('data-theme', activeTheme);
+
+if (color) {
+  document.documentElement.style.setProperty('--app-primary', color);
+  document.documentElement.style.setProperty('--app-primary-soft', color + '22');
+}
+
+document.getElementById('wTitle').textContent = title;
+const res = TimeCalculator.calculateDifference(start, end, { includeStart: inc, onlyBusinessDays: bus });
+
+if (res.valid) {
+  document.getElementById('wNumber').textContent = res.days;
+  document.getElementById('wStatus').textContent = res.isFuture ? 'Cuenta Regresiva' : 'Transcurrido';
+  document.getElementById('wLabel').textContent = res.isFuture ? 'días restantes' : 'días transcurridos';
+  document.getElementById('wWeeks').textContent = res.breakdown.weeks;
+  document.getElementById('wHours').textContent = res.breakdown.hours.toLocaleString();
+  document.getElementById('wDates').textContent = `${start} ➔ ${end}`;
+}
+</script>
+</body>
+</html>

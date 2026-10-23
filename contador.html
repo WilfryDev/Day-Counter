@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Tiempo | Contador de Días</title>
+<link rel="icon" href="assets/icons/hourglass.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="promo-banner" id="promoBanner">
+  <div class="promo-content">
+    <span id="bannerIcon">✨</span>
+    <span id="bannerText" data-i18n="promoBanner">🚀 ¡Descubre la nueva API v2 y repositorio oficial en GitHub! Haz una estrella ⭐</span>
+    <a href="https://github.com/WilfryDev/Day-Counter" target="_blank" rel="noopener noreferrer" class="promo-link-btn" id="bannerBtn" data-i18n="promoBtn">Ver en GitHub</a>
+  </div>
+  <button type="button" class="promo-close-btn" id="closePromoBtn" data-i18n-title="promoClose" title="Cerrar banner">✕</button>
+</div>
+
+<header class="top-navbar">
+  <a href="contador.html" class="brand-badge">
+    <div class="brand-icon">
+      <img src="assets/icons/hourglass.svg" alt="Hourglass" width="22" height="22">
+    </div>
+    <span data-i18n="appName">Contador de Días</span>
+  </a>
+
+  <nav class="nav-links">
+    <button type="button" class="nav-btn" id="openPresetsNav" title="Presets rápidos">
+      🎯 <span data-i18n="presets">Presets</span>
+    </button>
+    <button type="button" class="nav-btn" id="openGuideNav" title="Guía de uso">
+      📖 <span data-i18n="usage">Uso</span>
+    </button>
+    <a href="tools/index.html" class="nav-btn" title="Herramientas adicionales de tiempo">
+      🛠️ <span data-i18n="tools">Tools</span>
+    </a>
+
+    <div class="lang-select-wrapper">
+      <select class="lang-select-input" aria-label="Idioma / Language">
+        <option value="es">🇪🇸 ES</option>
+        <option value="en">🇺🇸 EN</option>
+        <option value="fr">🇫🇷 FR</option>
+        <option value="de">🇩🇪 DE</option>
+        <option value="pt">🇧🇷 PT</option>
+        <option value="it">🇮🇹 IT</option>
+      </select>
+      <span class="lang-select-arrow">▼</span>
+    </div>
+
+    <button type="button" class="nav-btn primary" id="settingsBtn" title="Ajustes y Colores">
+      ⚙️ <span data-i18n="settings">Ajustes</span>
+    </button>
+  </nav>
+</header>
+
+<main class="main-content">
+  <div class="calculator-card">
+    <div style="text-align: center;">
+      <span class="header-badge">⏱️ <span data-i18n="badge">Cálculo Preciso</span></span>
+    </div>
+
+    <h1 class="header-title" data-i18n="title">Calculadora de Tiempo</h1>
+    <p class="header-subtitle" data-i18n="subtitle">Descubre con exactitud cuántos días han pasado o faltan</p>
+
+    <div class="year-progress-container">
+      <div class="year-progress-header">
+        <span data-i18n="yearProgress">Progreso del año actual</span>
+        <span id="yearProgressText">2026: 81.4%</span>
+      </div>
+      <div class="year-progress-track">
+        <div class="year-progress-fill" id="yearProgressFill"></div>
+      </div>
+    </div>
+
+    <div class="presets-strip" id="quickPresetsBar"></div>
+
+    <div class="field-group">
+      <div class="field-header">
+        <label class="field-label">
+          📅 <span data-i18n="startDate">FECHA INICIAL</span>
+        </label>
+        <button type="button" class="field-action-btn" id="setStartToday" data-i18n="today">Hoy</button>
+      </div>
+      <div class="input-row">
+        <div class="month-picker-container" id="mpContainer">
+          <button type="button" class="month-picker-trigger" id="mpTrigger">
+            <span id="mpValue">Octubre 2026</span>
+            <span style="font-size:12px; opacity:0.7;">▼</span>
+          </button>
+          <div class="popover" id="mpPopover" hidden>
+            <div class="popover-header">
+              <button type="button" class="popover-nav" id="mpPrev">‹</button>
+              <span class="popover-year" id="mpYear">2026</span>
+              <button type="button" class="popover-nav" id="mpNext">›</button>
+            </div>
+            <div class="months-grid" id="mpGrid"></div>
+          </div>
+        </div>
+
+        <div class="input-wrapper">
+          <input type="number" id="initialDay" min="1" max="31" placeholder="Día" data-i18n-placeholder="day">
+        </div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <div class="field-header">
+        <label class="field-label">
+          🏁 <span data-i18n="endDate">FECHA FINAL (HOY)</span>
+        </label>
+        <button type="button" class="field-action-btn" id="setEndToday" data-i18n="resetToday">Restablecer a Hoy</button>
+      </div>
+      
+      <div class="custom-calendar-container" id="customCalContainer">
+        <button type="button" class="custom-calendar-trigger" id="customCalTrigger">
+          <span id="customCalValue">23/10/2026</span>
+          <span style="font-size:16px; opacity:0.8;">📅</span>
+        </button>
+        <input type="hidden" id="finalDate" value="2026-10-23">
+
+        <div class="custom-calendar-popover" id="customCalPopover" hidden>
+          <div class="cal-header">
+            <div class="cal-title" id="calMonthYearTitle">Octubre 2026</div>
+            <div style="display:flex; gap:4px;">
+              <button type="button" class="cal-nav-btn" id="calPrevMonth" title="Mes anterior">‹</button>
+              <button type="button" class="cal-nav-btn" id="calNextMonth" title="Mes siguiente">›</button>
+            </div>
+          </div>
+          <div class="cal-weekdays" id="calWeekdays">
+            <span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span>
+          </div>
+          <div class="cal-days-grid" id="calDaysGrid"></div>
+          <div class="cal-footer">
+            <button type="button" class="cal-action-btn" id="calBtnClear">Borrar</button>
+            <button type="button" class="cal-action-btn" id="calBtnToday">Hoy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="options-group">
+      <label class="checkbox-group">
+        <input type="checkbox" id="includeStartDay" checked>
+        <span data-i18n="includeDay">INCLUIR EL DÍA INICIAL EN EL CONTEO</span>
+      </label>
+      <label class="checkbox-group">
+        <input type="checkbox" id="onlyBusinessDays">
+        <span data-i18n="onlyBusinessDays">CONTAR SOLO DÍAS HÁBILES (LUNES A VIERNES)</span>
+      </label>
+    </div>
+
+    <div class="result-box">
+      <div class="result-status-pill" id="resultStatusPill">Transcurrido</div>
+      <div class="result-number" id="resultNumber">0</div>
+      <div class="result-label" id="resultLabel" data-i18n="daysPassed">días transcurridos</div>
+      <div class="result-hint" id="resultHint" data-i18n="hint">Escribe un día para calcular</div>
+
+      <div class="breakdown-row" id="breakdownRow" style="display: none;">
+        <div class="breakdown-item">🗓️ <span id="bdWeeks">0</span> <span data-i18n="weeks">sem</span></div>
+        <div class="breakdown-item">🌙 <span id="bdMonths">0</span> <span data-i18n="monthsApprox">meses aprox</span></div>
+        <div class="breakdown-item">⌛ <span id="bdHours">0</span> <span data-i18n="hours">horas</span></div>
+      </div>
+
+      <div class="result-actions">
+        <button type="button" class="action-icon-btn" id="copyResultBtn">
+          📋 <span data-i18n="copyResult">Copiar Resultado</span>
+        </button>
+        <button type="button" class="action-icon-btn" id="shareLinkBtn">
+          🔗 <span data-i18n="shareLink">Compartir Enlace</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal-overlay" id="settingsModal" hidden>
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2 class="modal-title">⚙️ <span data-i18n="settings">Ajustes</span></h2>
+      <button type="button" class="modal-close" id="closeSettings">✕</button>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-label" data-i18n="theme">Tema de Interfaz</div>
+      <div class="btn-group">
+        <button type="button" data-theme-btn="light" data-i18n="light">☀️ Claro</button>
+        <button type="button" data-theme-btn="dark" data-i18n="dark">🌙 Oscuro</button>
+        <button type="button" data-theme-btn="auto" data-i18n="auto">🌓 Auto</button>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-label" data-i18n="language">Idioma</div>
+      <div class="lang-select-wrapper" style="width: 100%;">
+        <select class="lang-select-input" style="width: 100%; height: 42px;">
+          <option value="es">🇪🇸 Español</option>
+          <option value="en">🇺🇸 English</option>
+          <option value="fr">🇫🇷 Français</option>
+          <option value="de">🇩🇪 Deutsch</option>
+          <option value="pt">🇧🇷 Português</option>
+          <option value="it">🇮🇹 Italiano</option>
+        </select>
+        <span class="lang-select-arrow" style="right: 14px;">▼</span>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-label" data-i18n="accentColor">Paleta de Color Dinámico</div>
+      <div class="color-picker-box">
+        <div class="color-wheel-wrapper">
+          <div class="custom-color-circle" title="Rueda de color circular">
+            <div class="custom-color-circle-inner" id="colorWheelPreview">🎨</div>
+            <input type="color" id="customColorInput" value="#6d28d9" aria-label="Elegir cualquier color">
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:13px; font-weight:700; margin-bottom:4px;" data-i18n="circularPickerTitle">Selector Circular Universal</div>
+            <div style="font-size:11.5px; color:var(--text-muted); margin-bottom:8px;" data-i18n="circularPickerDesc">
+              Afecta solo al título 'Calculadora de Tiempo', al número '0' y detalles, sin alterar el texto de las fechas.
+            </div>
+            <div class="hex-input-row">
+              <input type="text" id="hexColorInput" value="#6D28D9" maxlength="7">
+              <button type="button" class="hex-reset-btn" id="resetColorDefault">Reset</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="color-grid">
+          <button type="button" class="color-swatch" data-color="default" title="Por defecto"></button>
+          <button type="button" class="color-swatch" data-color="#2563eb" style="background:#2563eb" title="Azul Real"></button>
+          <button type="button" class="color-swatch" data-color="#0284c7" style="background:#0284c7" title="Cian"></button>
+          <button type="button" class="color-swatch" data-color="#059669" style="background:#059669" title="Verde Esmeralda"></button>
+          <button type="button" class="color-swatch" data-color="#db2777" style="background:#db2777" title="Rosa"></button>
+          <button type="button" class="color-swatch" data-color="#ea580c" style="background:#ea580c" title="Naranja"></button>
+          <button type="button" class="color-swatch" data-color="#dc2626" style="background:#dc2626" title="Rojo"></button>
+          <button type="button" class="color-swatch" data-color="#7c3aed" style="background:#7c3aed" title="Violeta"></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-label" data-i18n="sounds">Efectos de Sonido</div>
+      <div style="background:var(--card-subtle); border:1px solid var(--border); border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:10px;">
+        <label class="checkbox-group">
+          <input type="checkbox" id="soundToggle" checked>
+          <span data-i18n="soundEnabled">Sonidos interactivos activos</span>
+        </label>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="font-size:12px; font-weight:600; color:var(--text-muted);" data-i18n="volume">Volumen</span>
+          <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.35" style="flex:1; accent-color:var(--app-primary);">
+          <button type="button" class="nav-btn" id="testSoundBtn" style="padding:4px 10px; font-size:11px;" data-i18n="testSound">Probar sonido</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="presetsModal" hidden>
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2 class="modal-title">🎯 <span data-i18n="presetsTitle">Presets y Eventos</span></h2>
+      <button type="button" class="modal-close" id="closePresets">✕</button>
+    </div>
+
+    <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin:14px 0 8px;" data-i18n="holidaysTitle">
+      Festividades y Fechas Clave
+    </div>
+    <div class="presets-list" id="standardPresetsList"></div>
+
+    <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin:20px 0 8px;" data-i18n="myPresetsTitle">
+      Mis Presets Guardados
+    </div>
+    <div class="presets-list" id="customPresetsList"></div>
+
+    <div class="save-preset-box">
+      <div style="font-size:12px; font-weight:700; margin-bottom:8px;">💾 Guardar selección como Preset</div>
+      <div class="save-preset-form">
+        <input type="text" id="newPresetName" placeholder="Ej: Mi Cumpleaños..." data-i18n-placeholder="savePresetPlaceholder" maxlength="30">
+        <button type="button" id="saveCustomPresetBtn" data-i18n="savePresetBtn">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="guideModal" hidden>
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2 class="modal-title">📖 <span data-i18n="usageTitle">Guía de Uso Rápida</span></h2>
+      <button type="button" class="modal-close" id="closeGuide">✕</button>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:16px;">
+      <div style="display:flex; gap:14px; align-items:flex-start;">
+        <span style="font-size:24px;">📅</span>
+        <div>
+          <strong data-i18n="step1Title">1. Fecha Inicial</strong>
+          <p style="margin:4px 0 0; font-size:13px; color:var(--text-muted); line-height:1.45;" data-i18n="step1Desc">
+            Haz clic en el selector interactivo de mes y año, e ingresa el día del 1 al 31.
+          </p>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:14px; align-items:flex-start;">
+        <span style="font-size:24px;">🏁</span>
+        <div>
+          <strong data-i18n="step2Title">2. Fecha Final</strong>
+          <p style="margin:4px 0 0; font-size:13px; color:var(--text-muted); line-height:1.45;" data-i18n="step2Desc">
+            Selecciona la fecha con nuestro calendario interactivo propio o usa el botón Restablecer a Hoy.
+          </p>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:14px; align-items:flex-start;">
+        <span style="font-size:24px;">⚙️</span>
+        <div>
+          <strong data-i18n="step3Title">3. Opciones de Conteo</strong>
+          <p style="margin:4px 0 0; font-size:13px; color:var(--text-muted); line-height:1.45;" data-i18n="step3Desc">
+            Elige si deseas incluir el día inicial o computar únicamente días laborables (lunes a viernes).
+          </p>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:14px; align-items:flex-start;">
+        <span style="font-size:24px;">🔗</span>
+        <div>
+          <strong data-i18n="step4Title">4. Desglose y Compartir</strong>
+          <p style="margin:4px 0 0; font-size:13px; color:var(--text-muted); line-height:1.45;" data-i18n="step4Desc">
+            Observa el total en días, semanas, meses, horas y genera un enlace listo para compartir.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="tosModal" hidden>
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2 class="modal-title">📄 <span data-i18n="tosLink">Términos de Servicio (TOS)</span></h2>
+      <button type="button" class="modal-close" id="closeTos">✕</button>
+    </div>
+    <div style="font-size:13px; color:var(--text-muted); line-height:1.6;">
+      <p><strong>1. Aceptación:</strong> Al utilizar Contador de Días, aceptas estas condiciones de uso.</p>
+      <p><strong>2. Privacidad Local:</strong> Todos tus datos, presets y configuraciones se almacenan estrictamente en tu navegador (localStorage). Cero cookies de rastreo.</p>
+      <p><strong>3. Exactitud:</strong> Los cálculos contemplan años bisiestos y husos horarios. No nos responsabilizamos por plazos judiciales o fiscales no verificados.</p>
+    </div>
+    <div style="text-align:right; margin-top:14px;">
+      <a href="tos.html" class="nav-btn primary" style="font-size:12px;">Ver Documento Completo ↗</a>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-title">⏳ <span data-i18n="appName">Contador de Días</span></div>
+        <p class="footer-brand-desc" data-i18n="footerDesc">
+          Herramienta web moderna de alta precisión para medir diferencias entre fechas, cuentas regresivas y cálculo de lapsos temporales.
+        </p>
+      </div>
+
+      <div>
+        <div class="footer-col-title" data-i18n="navTitle">Navegación</div>
+        <ul class="footer-links">
+          <li><a href="contador.html" data-i18n="calcLink">Calculadora</a></li>
+          <li><button type="button" id="footerOpenPresets" data-i18n="presets">Presets</button></li>
+          <li><button type="button" id="footerOpenGuide" data-i18n="usage">Guía de Uso</button></li>
+          <li><a href="tools/index.html">🛠️ Herramientas / Tools</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title" data-i18n="devTitle">Desarrolladores</div>
+        <ul class="footer-links">
+          <li><a href="api/index.html" data-i18n="apiLink">Documentación API & Sandbox</a></li>
+          <li><a href="contador.html?start=2026-01-01&format=json" target="_blank">Endpoint JSON Directo</a></li>
+          <li><a href="https://github.com/WilfryDev/Day-Counter" target="_blank" rel="noopener noreferrer">Repositorio GitHub</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title" data-i18n="legalTitle">Legal</div>
+        <ul class="footer-links">
+          <li><a href="tos.html" data-i18n="tosLink">Términos de Servicio (TOS)</a></li>
+          <li><a href="tos.html#privacidad" data-i18n="privacyLink">Política de Privacidad</a></li>
+          <li><button type="button" id="footerOpenTos">Ver Resumen TOS</button></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>
+        © 2026 <strong>WilfryDev</strong> • <span data-i18n="appName">Contador de Días</span>. <span data-i18n="allRights">Todos los derechos reservados.</span>
+      </div>
+      <div class="footer-status">
+        <span class="status-dot"></span>
+        <span data-i18n="statusOk">Sistema y Motor 100% Operativo</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast-msg" id="toastMsg">
+  <span>✓</span> <span id="toastText">Copiado al portapapeles</span>
+</div>
+
+<script src="js/banner-config.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/calculator.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/presets.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

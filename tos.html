@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Términos de Servicio (TOS) | Contador de Días</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⏳</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #f4f6fb;
+  --card-bg: #ffffff;
+  --card-subtle: #f8fafc;
+  --app-text: #1a1a2e;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --app-primary: #6d28d9;
+  --app-primary-soft: #f3e8ff;
+  --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] {
+  --bg: #0b0f19;
+  --card-bg: #141b2d;
+  --card-subtle: #1a2238;
+  --app-text: #f8fafc;
+  --text-muted: #94a3b8;
+  --border: #28344e;
+  --app-primary: #8b5cf6;
+  --app-primary-soft: rgba(139, 92, 246, 0.18);
+  --shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--app-text);
+  display: flex;
+  flex-direction: column;
+  transition: background 0.3s, color 0.3s;
+}
+
+.tos-header {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 20px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--app-text);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 20px 20px 60px;
+}
+
+.legal-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: clamp(24px, 5vw, 48px);
+  box-shadow: var(--shadow);
+}
+
+.legal-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(26px, 6vw, 36px);
+  font-weight: 900;
+  color: var(--app-primary);
+  margin: 0 0 8px;
+  letter-spacing: -0.5px;
+}
+
+.legal-meta {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-block {
+  margin-bottom: 24px;
+}
+.section-heading {
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--app-text);
+  margin-bottom: 8px;
+}
+.section-text {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.highlight-box {
+  background: var(--card-subtle);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--app-primary);
+  padding: 16px;
+  border-radius: 12px;
+  margin: 16px 0;
+  font-size: 14px;
+  color: var(--app-text);
+}
+
+.btn {
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--app-text);
+  transition: all 0.2s;
+}
+.btn:hover {
+  border-color: var(--app-primary);
+  color: var(--app-primary);
+}
+.btn.primary {
+  background: var(--app-primary);
+  color: #fff;
+  border-color: var(--app-primary);
+}
+.btn.primary:hover {
+  filter: brightness(1.1);
+}
+
+.site-footer {
+  background: var(--card-bg);
+  border-top: 1px solid var(--border);
+  padding: 24px 20px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<header class="tos-header">
+  <a href="contador.html" class="brand-badge">
+    <span style="font-size:22px;">⏳</span>
+    <span>Contador de Días</span>
+  </a>
+  <div>
+    <a href="contador.html" class="btn primary">← Volver a la Calculadora</a>
+  </div>
+</header>
+
+<main class="main-content">
+  <div class="legal-card">
+    <h1 class="legal-title">Términos de Servicio (TOS)</h1>
+    <div class="legal-meta">Última actualización: 23 de Octubre de 2026 • Versión 2.0</div>
+
+    <div class="section-block">
+      <div class="section-heading">1. Introducción y Aceptación</div>
+      <div class="section-text">
+        Bienvenido a <strong>Contador de Días</strong> ("la Aplicación"). Al acceder, interactuar con el calculador, utilizar los presets, consultar la API o compartir enlaces generados por este sitio, confirmas que has leído y aceptas los presentes Términos de Servicio.
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading">2. Naturaleza y Propósito del Servicio</div>
+      <div class="section-text">
+        Contador de Días es una herramienta web interactiva diseñada para calcular diferencias cronológicas, intervalos de tiempo, días transcurridos y cuentas regresivas hacia fechas futuras o pasadas. El usuario puede seleccionar fechas gregorianas válidas, optar por conteos inclusivos o exclusivos y visualizar desgloses aproximados en semanas, meses y horas.
+      </div>
+    </div>
+
+    <div class="highlight-box" id="privacidad">
+      <strong>🔒 Compromiso de Privacidad y Almacenamiento Local (Local-First):</strong><br>
+      No rastreamos tu identidad ni vendemos información. Todas tus preferencias (modo oscuro/claro, idioma, colores personalizados y presets guardados) residen de forma 100% privada dentro del almacenamiento local (localStorage) de tu navegador. Ninguna fecha calculada es transmitida ni almacenada en bases de datos externas.
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading">3. Uso de la API y Parámetros URL</div>
+      <div class="section-text">
+        La aplicación ofrece facilidades para integrar cálculos mediante parámetros de consulta en la URL (como <code>?start=YYYY-MM-DD&end=YYYY-MM-DD</code>) y el objeto nativo <code>window.ContadorAPI</code>. Está permitido el uso con fines personales, académicos y profesionales, siempre que no se utilice para sobrecargar o saturar recursos de manera maliciosa.
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading">4. Presets y Personalización de Interfaz</div>
+      <div class="section-text">
+        Los presets incluidos (Año Nuevo, Navidad, etc.) son aproximaciones basadas en fechas convencionales estándar. Los presets personalizados que el usuario guarde son administrados por su propio navegador y pueden eliminarse en cualquier momento limpiando los datos de navegación o mediante el botón de eliminación respectivo.
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading">5. Limitación de Responsabilidad y Exclusión de Garantías</div>
+      <div class="section-text">
+        La herramienta se suministra "tal cual" (as-is), sin garantías explícitas o implícitas de idoneidad para cómputos legales, tributarios, plazos procesales o contractuales específicos que puedan regirse por calendarios bancarios o normativas locales no contempladas. Se recomienda verificar cálculos críticos con calendarios oficiales.
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading">6. Modificaciones de los Términos</div>
+      <div class="section-text">
+        Nos reservamos el derecho de actualizar estos términos para reflejar nuevas funciones o mejoras técnicas. El uso continuo de la plataforma constituye la aceptación de dichas actualizaciones.
+      </div>
+    </div>
+
+    <div style="margin-top: 30px; display: flex; gap: 12px; flex-wrap: wrap;">
+      <a href="contador.html" class="btn primary">Ir a la Calculadora</a>
+      <a href="api/index.html" class="btn">Consultar Documentación API</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  © 2026 Contador de Días. Todos los derechos reservados.
+</footer>
+
+<script>
+// Heredar tema y color guardados
+const savedTheme = localStorage.getItem('theme') || 'auto';
+let activeTheme = savedTheme;
+if (savedTheme === 'auto') {
+  activeTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+document.documentElement.setAttribute('data-theme', activeTheme);
+
+const savedColor = localStorage.getItem('appColor');
+if (savedColor && savedColor !== 'default') {
+  document.documentElement.style.setProperty('--app-primary', savedColor);
+  document.documentElement.style.setProperty('--app-primary-soft', savedColor + '22');
+}
+</script>
+</body>
+</html>

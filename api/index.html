@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API & Embed Widget | Contador de Días</title>
+<link rel="icon" href="../assets/icons/hourglass.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/styles.css">
+<style>
+.api-container {
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+}
+.api-card-doc {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  padding: clamp(22px, 5vw, 40px);
+  box-shadow: var(--shadow);
+  margin-bottom: 24px;
+}
+.api-hero-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(28px, 6vw, 36px);
+  font-weight: 900;
+  color: var(--app-primary);
+  margin: 0 0 10px;
+}
+.api-hero-desc {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.sandbox-card {
+  background: var(--card-subtle);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 22px;
+  margin: 20px 0;
+}
+.code-box {
+  background: #0f172a;
+  color: #38bdf8;
+  border-radius: 14px;
+  padding: 16px;
+  font-family: 'Consolas', monospace;
+  font-size: 13px;
+  position: relative;
+  overflow-x: auto;
+  margin: 12px 0 18px;
+  line-height: 1.5;
+}
+.copy-pill-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.copy-pill-btn:hover {
+  background: var(--app-primary);
+}
+.param-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 14px 0 24px;
+}
+.param-table th, .param-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.param-table th {
+  color: var(--text-muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.badge-param {
+  font-family: monospace;
+  font-weight: 700;
+  background: var(--app-primary-soft);
+  color: var(--app-primary);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+.embed-preview-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 20px 10px;
+  background: var(--input-bg);
+  border: 1px dashed var(--border);
+  border-radius: 16px;
+  margin: 16px 0;
+}
+</style>
+</head>
+<body>
+
+<header class="top-navbar" style="max-width: 960px;">
+  <a href="../contador.html" class="brand-badge">
+    <div class="brand-icon">
+      <img src="../assets/icons/hourglass.svg" alt="Hourglass" width="22" height="22">
+    </div>
+    <span>API & Embed SDK</span>
+  </a>
+  <div style="display:flex; gap:10px;">
+    <a href="../tools/index.html" class="nav-btn">🛠️ Tools</a>
+    <a href="../contador.html" class="nav-btn primary">← Ir a la Calculadora</a>
+  </div>
+</header>
+
+<main class="api-container">
+  <div class="api-card-doc">
+    <h1 class="api-hero-title">API & Embeds para Enseñar Días</h1>
+    <p class="api-hero-desc">
+      Conéctate a la API real o incrusta widgets interactivos en cualquier sitio web mediante un simple <code>&lt;iframe&gt;</code> o etiqueta <code>&lt;script&gt;</code>.
+    </p>
+
+    <div class="sandbox-card">
+      <div style="font-family:'Outfit', sans-serif; font-size:18px; font-weight:800; margin-bottom:12px;">
+        🖼️ Generador de Embed (Widget Visual en Vivo)
+      </div>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:14px;">
+        Configura tu widget para enseñar los días transcurridos o restantes y copia el código generado:
+      </p>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:14px;">
+        <div>
+          <label style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Título del Evento</label>
+          <input type="text" id="embTitle" value="Año Nuevo 2027" style="width:100%; padding:9px 12px; border-radius:10px; border:1px solid var(--border); background:var(--card-bg); color:var(--app-text); font-size:13px;">
+        </div>
+        <div>
+          <label style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Fecha de Inicio</label>
+          <input type="date" id="embStart" value="2026-01-01" style="width:100%; padding:9px 12px; border-radius:10px; border:1px solid var(--border); background:var(--card-bg); color:var(--app-text); font-size:13px;">
+        </div>
+        <div>
+          <label style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Fecha de Fin (Opcional)</label>
+          <input type="date" id="embEnd" value="2027-01-01" style="width:100%; padding:9px 12px; border-radius:10px; border:1px solid var(--border); background:var(--card-bg); color:var(--app-text); font-size:13px;">
+        </div>
+        <div>
+          <label style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Color de Acento</label>
+          <input type="color" id="embColor" value="#6d28d9" style="width:100%; height:40px; border-radius:10px; border:1px solid var(--border); background:var(--card-bg); cursor:pointer;">
+        </div>
+      </div>
+
+      <div class="embed-preview-wrapper">
+        <iframe id="embedLivePreview" src="../embed.html?start=2026-01-01&end=2027-01-01&title=Año+Nuevo+2027&color=%236d28d9" style="width:100%; max-width:360px; height:185px; border:none; border-radius:20px; box-shadow:0 8px 25px rgba(0,0,0,0.08);"></iframe>
+      </div>
+
+      <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-top:14px;">Código iFrame para tu web:</div>
+      <div class="code-box">
+        <button class="copy-pill-btn" onclick="copySnippet('iframeCodeText')">Copiar iFrame</button>
+        <pre id="iframeCodeText" style="margin:0; color:#e2e8f0;"></pre>
+      </div>
+
+      <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-top:10px;">Código JavaScript SDK para tu web:</div>
+      <div class="code-box">
+        <button class="copy-pill-btn" onclick="copySnippet('jsSdkText')">Copiar Script</button>
+        <pre id="jsSdkText" style="margin:0; color:#e2e8f0;"></pre>
+      </div>
+    </div>
+
+    <div class="sandbox-card">
+      <div style="font-family:'Outfit', sans-serif; font-size:18px; font-weight:800; margin-bottom:12px;">
+        🧪 Sandbox de Peticiones API Real (JSON)
+      </div>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-bottom:14px;">
+        <div>
+          <label style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">start (Fecha inicial)</label>
+          <input type="date" id="apiTestStart" value="2026-01-01" style="width:100%; padding:9px 12px; border-radius:10px; border:1px solid var(--border); background:var(--card-bg); color:var(--app-text); font-size:13px;">
+        </div>
+        <div>
+          <label style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">end (Fecha fin)</label>
+          <input type="date" id="apiTestEnd" style="width:100%; padding:9px 12px; border-radius:10px; border:1px solid var(--border); background:var(--card-bg); color:var(--app-text); font-size:13px;">
+        </div>
+        <div>
+          <label style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">include (Inclusivo)</label>
+          <select id="apiTestInclude" style="width:100%; padding:9px 12px; border-radius:10px; border:1px solid var(--border); background:var(--card-bg); color:var(--app-text); font-size:13px;">
+            <option value="true" selected>true</option>
+            <option value="false">false</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">business (Días hábiles)</label>
+          <select id="apiTestBusiness" style="width:100%; padding:9px 12px; border-radius:10px; border:1px solid var(--border); background:var(--card-bg); color:var(--app-text); font-size:13px;">
+            <option value="false" selected>false (Todos)</option>
+            <option value="true">true (Lun-Vie)</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="button" class="nav-btn primary" id="runApiTestBtn">🚀 Consultar API Real</button>
+
+      <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin:16px 0 6px;">
+        Respuesta JSON:
+      </div>
+      <div class="code-box">
+        <button class="copy-pill-btn" onclick="copySnippet('apiJsonOutput')">Copiar JSON</button>
+        <pre id="apiJsonOutput" style="margin:0;"></pre>
+      </div>
+    </div>
+
+    <h2 style="font-family:'Outfit', sans-serif; font-size:20px; font-weight:800; margin:26px 0 10px;">Parámetros del Endpoint</h2>
+    <table class="param-table">
+      <thead>
+        <tr>
+          <th>Parámetro</th>
+          <th>Tipo</th>
+          <th>Requerido</th>
+          <th>Descripción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge-param">start</span></td>
+          <td>YYYY-MM-DD</td>
+          <td>Sí</td>
+          <td>Fecha desde la que inicia el cálculo.</td>
+        </tr>
+        <tr>
+          <td><span class="badge-param">end</span></td>
+          <td>YYYY-MM-DD</td>
+          <td>No</td>
+          <td>Fecha final (por defecto hoy).</td>
+        </tr>
+        <tr>
+          <td><span class="badge-param">include</span></td>
+          <td>boolean</td>
+          <td>No</td>
+          <td><code>true</code> para incluir el primer día como día 1.</td>
+        </tr>
+        <tr>
+          <td><span class="badge-param">business</span></td>
+          <td>boolean</td>
+          <td>No</td>
+          <td><code>true</code> para computar solo días hábiles (lunes a viernes).</td>
+        </tr>
+        <tr>
+          <td><span class="badge-param">format</span></td>
+          <td>string</td>
+          <td>No</td>
+          <td><code>format=json</code> devuelve el payload JSON puro.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner" style="max-width: 960px;">
+    <div class="footer-bottom" style="border-top:none; padding-top:0;">
+      <div>© 2026 <strong>WilfryDev</strong> • Contador de Días API & Embeds.</div>
+      <div class="footer-status"><span class="status-dot"></span><span>API & Embeds Activos</span></div>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/calculator.js"></script>
+<script>
+const now = new Date();
+const y = now.getFullYear();
+const m = String(now.getMonth() + 1).padStart(2, '0');
+const d = String(now.getDate()).padStart(2, '0');
+document.getElementById('apiTestEnd').value = `${y}-${m}-${d}`;
+
+function runTest() {
+  const start = document.getElementById('apiTestStart').value;
+  const end = document.getElementById('apiTestEnd').value;
+  const inc = document.getElementById('apiTestInclude').value === 'true';
+  const bus = document.getElementById('apiTestBusiness').value === 'true';
+
+  const res = window.TimeCalculator.calculateDifference(start, end, {
+    includeStart: inc,
+    onlyBusinessDays: bus
+  });
+
+  document.getElementById('apiJsonOutput').textContent = JSON.stringify(res, null, 2);
+}
+
+document.getElementById('runApiTestBtn').onclick = runTest;
+runTest();
+
+function updateEmbedCode() {
+  const title = encodeURIComponent(document.getElementById('embTitle').value);
+  const start = document.getElementById('embStart').value;
+  const end = document.getElementById('embEnd').value;
+  const color = encodeURIComponent(document.getElementById('embColor').value);
+
+  const baseUrl = window.location.origin + window.location.pathname.replace(/\/api\/.*$/, '');
+  const embedUrl = `${baseUrl}/embed.html?start=${start}&end=${end}&title=${title}&color=${color}`;
+
+  document.getElementById('embedLivePreview').src = `../embed.html?start=${start}&end=${end}&title=${title}&color=${color}`;
+  document.getElementById('iframeCodeText').textContent = `<iframe src="${embedUrl}" width="100%" height="185" style="max-width:360px; border:none; border-radius:20px; overflow:hidden;" scrolling="no"></iframe>`;
+  document.getElementById('jsSdkText').textContent = `<script src="${baseUrl}/js/embed.js"><\/script>\n<div class="day-counter-widget" data-start="${start}" data-end="${end}" data-title="${decodeURIComponent(title)}" data-color="${decodeURIComponent(color)}"></div>`;
+}
+
+document.getElementById('embTitle').addEventListener('input', updateEmbedCode);
+document.getElementById('embStart').addEventListener('change', updateEmbedCode);
+document.getElementById('embEnd').addEventListener('change', updateEmbedCode);
+document.getElementById('embColor').addEventListener('input', updateEmbedCode);
+updateEmbedCode();
+
+function copySnippet(id) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text);
+  alert("Copiado al portapapeles");
+}
+
+const theme = localStorage.getItem('daycounter_theme') || 'auto';
+let active = theme;
+if (theme === 'auto') active = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+document.documentElement.setAttribute('data-theme', active);
+const col = localStorage.getItem('daycounter_color');
+if (col && col !== 'default') {
+  document.documentElement.style.setProperty('--app-primary', col);
+  document.documentElement.style.setProperty('--app-primary-soft', col + '22');
+}
+</script>
+</body>
+</html>

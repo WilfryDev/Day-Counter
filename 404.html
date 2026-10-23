@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 - Tiempo no encontrado | Contador de Días</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⏳</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #f4f6fb;
+  --card-bg: #ffffff;
+  --app-text: #1a1a2e;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --app-primary: #6d28d9;
+  --app-primary-soft: #f3e8ff;
+  --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] {
+  --bg: #0b0f19;
+  --card-bg: #141b2d;
+  --app-text: #f8fafc;
+  --text-muted: #94a3b8;
+  --border: #28344e;
+  --app-primary: #8b5cf6;
+  --app-primary-soft: rgba(139, 92, 246, 0.18);
+  --shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--app-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s, color 0.3s;
+}
+
+.card-404 {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: clamp(30px, 6vw, 50px);
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-404::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: var(--app-primary);
+}
+
+.glitch-404 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(70px, 18vw, 100px);
+  font-weight: 900;
+  color: var(--app-primary);
+  line-height: 1;
+  margin: 10px 0;
+  letter-spacing: -2px;
+}
+
+.hourglass-icon {
+  font-size: 54px;
+  display: inline-block;
+  animation: rotateSand 3s infinite ease-in-out;
+}
+@keyframes rotateSand {
+  0% { transform: rotate(0deg); }
+  45% { transform: rotate(180deg); }
+  55% { transform: rotate(180deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.title-404 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  margin: 12px 0 8px;
+  color: var(--app-text);
+}
+
+.desc-404 {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.redirect-notice {
+  background: var(--app-primary-soft);
+  color: var(--app-primary);
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-group-404 {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+  border: 1px solid var(--border);
+}
+.btn.primary {
+  background: var(--app-primary);
+  color: #fff;
+  border-color: var(--app-primary);
+}
+.btn.primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+.btn.secondary {
+  background: var(--card-bg);
+  color: var(--app-text);
+}
+.btn.secondary:hover {
+  border-color: var(--app-primary);
+  color: var(--app-primary);
+}
+</style>
+</head>
+<body>
+
+<div class="card-404">
+  <div class="hourglass-icon">⏳</div>
+  <div class="glitch-404">404</div>
+  <h1 class="title-404">Tiempo Fuera de Rango</h1>
+  <p class="desc-404">
+    Parece que la fecha o página que estás buscando viajó a otra línea temporal o ya no existe en este calendario.
+  </p>
+
+  <div class="redirect-notice">
+    <span>⏱️ Redirigiendo a la calculadora en <strong id="secondsLeft">10</strong> segundos...</span>
+  </div>
+
+  <div class="btn-group-404">
+    <a href="contador.html" class="btn primary">🏠 Ir a la Calculadora</a>
+    <a href="api/index.html" class="btn secondary">⚡ Documentación API</a>
+    <a href="tos.html" class="btn secondary">📄 Términos</a>
+  </div>
+</div>
+
+<script>
+// Heredar tema guardado
+const savedTheme = localStorage.getItem('theme') || 'auto';
+let activeTheme = savedTheme;
+if (savedTheme === 'auto') {
+  activeTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+document.documentElement.setAttribute('data-theme', activeTheme);
+
+// Heredar color guardado
+const savedColor = localStorage.getItem('appColor');
+if (savedColor && savedColor !== 'default') {
+  document.documentElement.style.setProperty('--app-primary', savedColor);
+  document.documentElement.style.setProperty('--app-primary-soft', savedColor + '22');
+}
+
+// Cuenta regresiva de redirección
+let count = 10;
+const countEl = document.getElementById('secondsLeft');
+const timer = setInterval(() => {
+  count--;
+  if (countEl) countEl.textContent = count;
+  if (count <= 0) {
+    clearInterval(timer);
+    window.location.href = 'contador.html';
+  }
+}, 1000);
+</script>
+</body>
+</html>
